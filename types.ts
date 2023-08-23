@@ -40,3 +40,9 @@ export interface ThreadCardProps {
   }[];
   isComment?: boolean;
 }
+
+export interface CommentsFormProps {
+  threadId: string;
+  currentUserImg: string;
+  currentUserId: string;
+}
