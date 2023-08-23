@@ -13,3 +13,30 @@ export interface CreateThreadParams {
   communityId: string | null;
   path: string;
 }
+
+export interface ThreadAuthor {
+  name: string;
+  image: string;
+  id: string;
+}
+export interface Community {
+  id: string;
+  name: string;
+  image: string;
+}
+
+export interface ThreadCardProps {
+  id: string;
+  currentUserId: string;
+  parentId: string | null;
+  content: string;
+  author: ThreadAuthor;
+  community: Community | null;
+  createdAt: string;
+  comments: {
+    author: {
+      image: string;
+    };
+  }[];
+  isComment?: boolean;
+}
