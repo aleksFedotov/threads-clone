@@ -46,3 +46,45 @@ export interface CommentsFormProps {
   currentUserImg: string;
   currentUserId: string;
 }
+export interface ProfileHeaderProps {
+  accountId: string;
+  authUserId: string;
+  name: string;
+  username: string;
+  imgUrl: string;
+  bio: string;
+  type: string;
+}
+
+export interface ThreadsTabProps {
+  currentUserId: string;
+  accountId: string;
+  accountType: string;
+}
+
+export interface fetchTreadsResult {
+  name: string;
+  image: string;
+  id: string;
+  threads: {
+    _id: string;
+    text: string;
+    parentId: string | null;
+    author: {
+      name: string;
+      image: string;
+      id: string;
+    };
+    community: {
+      id: string;
+      name: string;
+      image: string;
+    } | null;
+    createdAt: string;
+    children: {
+      author: {
+        image: string;
+      };
+    }[];
+  }[];
+}

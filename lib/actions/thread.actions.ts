@@ -123,7 +123,7 @@ export async function fetchThreadById(threadId: string) {
 }
 
 export async function addCommentToThread(
-  threaId: string,
+  threadId: string,
   commentText: string,
   userId: string,
   path: string
@@ -131,14 +131,16 @@ export async function addCommentToThread(
   try {
     await connectToDB();
     // Find the original parent thread based on the provided thread ID
-    const originalThread = await Thread.findById(threaId);
+    const originalThread = await Thread.findById(threadId);
     if (!originalThread) throw new Error('Thread not found');
     // Create a new comment thread with the provided comment text, author, and parent thread reference.
     const commentTread = new Thread({
       text: commentText,
       author: userId,
-      parent: threaId,
+      parentId: threadId,
     });
+
+    console.log(commentTread);
     // Save the newly created comment thread to the database.
     const savedCommentThread = await commentTread.save();
     // Update the list of children threads in the original parent thread.
