@@ -88,3 +88,12 @@ export interface fetchTreadsResult {
     }[];
   }[];
 }
+
+export interface UserCardProps {
+  key: string;
+  id: string;
+  name: string;
+  username: string;
+  imgUrl: string;
+  personType: 'User' | 'Community';
+}
