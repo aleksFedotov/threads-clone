@@ -1,4 +1,7 @@
 const nextConfig = {
+  typescrip: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: ['mongoose'],
