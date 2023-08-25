@@ -6,6 +6,8 @@ import Community from '../models/community.model';
 import { connectToDB } from '../mongoose';
 import { UpdateUserParams } from '@/types';
 import Thread from '../models/thread.model';
+import { FilterQuery, SortOrder } from 'mongoose';
+import { useId } from 'react';
 
 export async function updateUser({
   userId,
@@ -78,5 +80,53 @@ export async function fetchUserThreads(userId: string) {
     return userThreads;
   } catch (error: any) {
     throw new Error(`Failed to fetch user threads: ${error.message}`);
+  }
+}
+
+export async function fetchUsers({
+  userId,
+  searchStrig = '',
+  pageNumber = 1,
+  pageSize = 20,
+  sortBy = 'desc',
+}: {
+  userId: string;
+  searchStrig?: string;
+  pageNumber?: number;
+  pageSize?: number;
+  sortBy?: SortOrder;
+}) {
+  try {
+    await connectToDB();
+
+    const skipAmount = (pageNumber - 1) * pageSize;
+    const regex = new RegExp(searchStrig, 'i');
+
+    const query: FilterQuery<typeof User> = {
+      id: { $ne: useId },
+    };
+
+    if (searchStrig.trim() !== '') {
+      query.$or = [
+        { usernmae: { $regex: regex } },
+        { name: { $regex: regex } },
+      ];
+    }
+
+    const sortOptions = { createdAt: sortBy };
+
+    const usersQuery = User.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const totalUsersCount = await User.countDocuments(query);
+    const users = await usersQuery.exec();
+
+    const isNext = totalUsersCount > skipAmount + users.length;
+
+    return { users, isNext };
+  } catch (error: any) {
+    throw new Error(`Failed to fetch users: ${error.message}`);
   }
 }
