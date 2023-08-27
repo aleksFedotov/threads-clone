@@ -2,6 +2,7 @@ import { fetchUserThreads } from '@/lib/actions/user.actions';
 import { ThreadsTabProps, fetchTreadsResult } from '@/types';
 import { redirect } from 'next/navigation';
 import ThreadCard from '../cards/ThreadCard';
+import { fetchCommunityPosts } from '@/lib/actions/community.actions';
 
 const ThreadsTab = async ({
   currentUserId,
@@ -11,7 +12,7 @@ const ThreadsTab = async ({
   let result: fetchTreadsResult;
 
   if (accountType === 'Community') {
-    result = await fetchUserThreads(accountId);
+    result = await fetchCommunityPosts(accountId);
   } else {
     result = await fetchUserThreads(accountId);
   }

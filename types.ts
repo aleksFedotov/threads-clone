@@ -97,3 +97,14 @@ export interface UserCardProps {
   imgUrl: string;
   personType: 'User' | 'Community';
 }
+
+export interface CommunityCardProps {
+  id: string;
+  name: string;
+  username: string;
+  imgUrl: string;
+  bio: string;
+  members: {
+    image: string;
+  }[];
+}
